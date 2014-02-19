@@ -18,7 +18,7 @@
             sottostante. Si pu&ograve; decidere cosa indicare, se la dicitura o l&apos;intero. Pagina 2 ancora in lavorazione</h5>
       </div>
             <div class="col-md-5" style="margin-top:35px;">
-                <form role="form" action="">
+                <form id="form1" role="form" action="">
                     <div class="row">
                       
                         <div class="form-group" id="text1">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <!--  The div that is used to display the slider value  -->
+                    <!--  The div that is u$$sed to display the slider value  -->
                     
                     <input type="hidden" name="slider_value" value="50"/>
                     
@@ -136,11 +136,9 @@
             $("#source").mouseleave(function(){
                 $("#popout_source").popover('hide');
             });
-     
+   
         
-    });
-
-    
+        
     $("#submit").on("click", function(){
         function getSearchParameters() {
                   var prmstr = window.location.search.substr(1);
@@ -170,23 +168,24 @@
             if (validate[i].val() == ""){
                 validate[i].closest('.form-group').addClass('has-error');
                 validate[i].focus()
-            
-                window.location = 'http://' + window.location.hostname + window.location.pathname;
-                var params = getSearchParameters();
-                $("#result").html("<span>"+params+"</span>")
-                
             }
         }
-       
+                window.location = 'http://' + window.location.hostname + window.location.pathname;
+                var queryDict = {}
+                location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
+                console.log(queryDict)
+                $("#result").append("<span>"+queryDict+"</span>")
+                $("#form1").attr("disable", "disable")
+                
+                
+            
+     });     
         
+        
+    });
 
     
-        
-        
-        
-        
-        
-     }); 
+    
         
     
 
