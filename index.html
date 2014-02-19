@@ -17,11 +17,11 @@
             non indicativi, ovvero i valori corrispondenti da &apos;molto povero&apos; a &apos;ricco&apos;, quello che conta &egrave; il valore numerico 
             sottostante. Si pu&ograve; decidere cosa indicare, se la dicitura o l&apos;intero. Pagina 2 ancora in lavorazione</h5>
       </div>
-            <div style="margin-top:35px;">
+            <div class="col-md-5" style="margin-top:35px;">
                 <form role="form" action="">
                     <div class="row">
-                      <div class="col-md-2"></div>
-                        <div class="form-group col-md-4" id="text1">
+                      
+                        <div class="form-group" id="text1">
                             <label for="income" > Reddito <span id="income">netto</span> della tua <span id="family">famiglia</span> da <span id="source">tutte le fonti</span></label>
                             <input type="text" class="form-control text" name="income" placeholder="&euro;">
                         
@@ -33,23 +33,23 @@
                     </div>
        
                     <div class="row">
-                      <div class="col-md-2"></div>
+                      <div class=""></div>
                         <div class="form-group col-md-5">
                             <label for="adults">Numero di adulti (&gt;18 anni) nella tua famiglia</label>
                             <input type="text" class="form-control text" name="adults" placeholder="">
                         </div>
                     </div>
                     <div class="row">
-                      <div class="col-md-2"></div>
-                        <div class="form-group col-md-5">
+                      
+                        <div class="form-group">
                             <label for="youngers">Numero di minori (&lt;18 anni) nella tua famiglia</label>
                             <input type="text" class="form-control text" name="youngers" placeholder="">
                         </div>
                     </div>
                 
                     <div class="row">
-                      <div class="col-md-2"></div>
-                        <div class="col-md-8 form-group">
+                      
+                        <div class="form-group">
                             <label for="slider">La tua percezione</label>
                             <div class="row">
                                 <div class="col-md-6" name="slider" id="slider" style="margin-top:25px;"></div>
@@ -69,14 +69,22 @@
                     <input type="hidden" name="slider_value" value="50"/>
                     
                     <div class="row">
-                      <div class="col-md-6"></div>
+                      <div class=""></div>
                         <div class="form-group col-md-4">
                             <button class="btn btn-primary" id="submit" style="font-size:22px;">Invia</button>
                         </div>
                     </div>
                 </form>
             </div>
+          
+            <div class="col-md-5" style="margin-top:35px;">
+                <div id="result">
+                  
+                </div>
+            </div>
+          
     </div>
+
     <script>
     $(document).ready(function () {
         var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
@@ -134,6 +142,24 @@
 
     
     $("#submit").on("click", function(){
+        function getSearchParameters() {
+                  var prmstr = window.location.search.substr(1);
+                  return prmstr != null && prmstr != "" ? transformToAssocArray(prmstr) : {};
+        }
+
+        function transformToAssocArray( prmstr ) {
+                 var params = {};
+                 var prmarr = prmstr.split("&");
+                 for ( var i = 0; i < prmarr.length; i++) {
+                      var tmparr = prmarr[i].split("=");
+                      params[tmparr[0]] = tmparr[1];
+                 }
+                 return params;
+         }
+        
+        
+        
+        
         income = $( "[name=income]" );
         adults = $( "[name=adults]" );
         youngers = $( "[name=youngers]" );
@@ -144,13 +170,26 @@
             if (validate[i].val() == ""){
                 validate[i].closest('.form-group').addClass('has-error');
                 validate[i].focus()
-                //window.location = 'http://' + window.location.hostname + window.location.pathname;
-                return false;
+            
+                window.location = 'http://' + window.location.hostname + window.location.pathname;
+                var params = getSearchParameters();
+                $("#result").html("<span>"+params+"</span>")
+                
             }
         }
+       
         
 
-    });  
+    
+        
+        
+        
+        
+        
+     }); 
+        
+    
+
     </script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
