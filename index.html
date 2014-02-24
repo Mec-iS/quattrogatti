@@ -96,8 +96,8 @@
         /* funzione d3.js per grafico distribuzione reddito famiglie */
         var drawBars = function() {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
-                width = window.innerWidth*0.65 - margin.left - margin.right,
-                height = window.innerHeight*0.65 - margin.top - margin.bottom;
+                width = document.documentElement.clientWidth*0.65 - margin.left - margin.right,
+                height = document.documentElement.clientHeight*0.65 - margin.top - margin.bottom;
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .15);
