@@ -275,12 +275,12 @@ d3.csv("barre.csv", type, function(error, data) {
     .enter().append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.euro); })
-      //.attr("width", x.rangeBand())
+      .attr("width", "15px") 
       .attr("y", function(d) { return y(d.barre); })
       .attr("height", function(d) { return height - y(d.barre); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-
+      //x.rangeBand())
 });
 
 function type(d) {
