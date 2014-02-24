@@ -210,7 +210,7 @@
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
         outline: 0 none;
     }
-        .bar rect
+        .bar
         {
             fill: orange;
             stroke: oranged;
@@ -226,8 +226,8 @@
             color: gray;
             fill-opacity: .6;
         }
-        .axis path,
-        .axis line {
+        .x_axis,
+        .x_axis {
             fill: none;
             stroke: grey;
             stroke-width: 1;
@@ -294,12 +294,12 @@ d3.csv("barre.csv", type, function(error, data) {
   y.domain([0, d3.max(data, function(d) { return d.barre; })]);
 
   svg.append("g")
-      .attr("class", "x axis")
+      .attr("class", "x_axis")
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
   svg.append("g")
-      .attr("class", "y axis")
+      .attr("class", "y_axis")
       .call(yAxis)
     .append("text")
       .attr("class", "value")
