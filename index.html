@@ -21,11 +21,13 @@
           </div>
         </div>
         <div class="container" id="main"> 
-
-
+              <!-- hardpoint per stage 1 e 2 --> 
+                 
         </div>
 
     <script>
+        
+    /* HTML string stage 1 */
     var stage1 = '<div class="col-md-5" style="margin-top:35px;"><div id="stage1" style="display:block"><form id="form1" role="form" action="">'+
                     '<div class="row">'+
 
@@ -83,6 +85,7 @@
                 '</div>'+
             '</div>';
 
+    /* HTML string stage 2 */
     var stage2 = '<div class="col-md-5" style="margin-top:35px;"  >'+
                      '<div id="stage2" style="">'+
                          'Famiglie italiane:'+
@@ -91,12 +94,12 @@
                  '</div>';      
     
     $(document).ready(function () {
+        
+        /* funzione d3.js per grafico distribuzione reddito famiglie */
         var drawBars = function() {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
                 width = 475 - margin.left - margin.right,
                 height = 380 - margin.top - margin.bottom;
-
-            var format = d3.format(""); // come formattare indicatori asse Y
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .15);
@@ -111,8 +114,7 @@
 
             var yAxis = d3.svg.axis()
                 .scale(y)
-                .orient("left")
-                //.tickFormat(format);
+                .orient("left");
 
             var tip = d3.tip()
               .attr('class', 'd3-tip')
@@ -166,23 +168,28 @@
               d.barre = +d.barre;
               return d;
             }
-    }
+        }  /* fine funzione d3 */
     
-    
+        /* prendere parametri da URL */
         params = []
         location.search.substr(1).split("&").forEach(function(item) { if (item) { params.push([item.split("=")[0], item.split("=")[1]])} })
         console.log(params.length)
         
+        /* se parametri sono settati => stage 2, se non sono settati => stage 1  */
         if (params.length != 0)
-        
         {
+            /* stage 2 */
             $("#main").html(stage2)
             drawBars();
             $("#stage2").append("<span>"+params+"</span>")
             $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+            /* fine definizione stage 2 */
         }
-        else {   
+        
+        else 
+        {   
             
+            /* stage 1 */
             $("#main").html(stage1)            
             var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
              
@@ -233,42 +240,30 @@
                 $("#source").mouseleave(function(){
                     $("#popout_source").popover('hide');
                 });
-     }
-     
- 
+            /* fine definizione stage 1 */
+         } 
         
-    $("#submit").on("click", function(){
-           
-        income = $( "[name=income]" );
-        adults = $( "[name=adults]" );
-        youngers = $( "[name=youngers]" );
-        validate = [income, adults, youngers]
-        
-        for (var i=0; i < validate.length; i++){
-            validate[i].closest('.form-group').removeClass('has-error');
-            if (validate[i].val() == ""){
-                validate[i].closest('.form-group').addClass('has-error');
-                validate[i].focus()
-                return false;
+        /* invio form */
+        $("#submit").on("click", function(){
+            income = $( "[name=income]" );
+            adults = $( "[name=adults]" );
+            youngers = $( "[name=youngers]" );
+            validate = [income, adults, youngers]
+
+            for (var i=0; i < validate.length; i++){
+                validate[i].closest('.form-group').removeClass('has-error');
+                if (validate[i].val() == ""){
+                    validate[i].closest('.form-group').addClass('has-error');
+                    validate[i].focus()
+                    return false;
+                }
             }
-            
-        }
-        
-        return document.location.href = 'http://' + window.location.hostname + window.location.pathname;
-        
-        /* window.location = 'http://' + window.location.hostname + window.location.pathname;
-                var queryDict = {}
-                location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
-                console.log(queryDict)
-                $("#result").append("<span>"+queryDict+"</span>")
-        */
-                
-                
-            
-     });     
+
+            return document.location.href = 'http://' + window.location.hostname + window.location.pathname;
+         });     
         
         
-    });
+    }); /* fine document.ready() */
 
     </script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
