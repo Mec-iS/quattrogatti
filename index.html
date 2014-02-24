@@ -7,6 +7,7 @@
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 </head>
     <body>
       <div class="container">   
@@ -67,7 +68,7 @@
                         </div>
                     </div>
 
-                    <!--  The div that is u$$sed to display the slider value  -->
+                    <!--  The div that is used to display the slider value  -->
                     
                     <input type="hidden" name="slider_value" value="50"/>
                     
@@ -84,6 +85,7 @@
             <div class="col-md-5" style="margin-top:35px;"  >
                 <div id="stage2" style="display:none">
                   qui appare il grafico col posizionamento dell&apos;utente
+                  <div id="d3"></div>
                 </div>
             </div>
           
@@ -101,7 +103,6 @@
             $("#stage1").css("display", "none")
             $("#stage2").css("display", "block")
             $("#stage2").append("<span>"+params+"</span>")
-            $("#stage2").append('<div class="itemFullText"><p id="sorting"></p><p id="random"></p><svg width="725" height="300"> <rect fill="#0000ff" width="27" x="13" height="287.5" y="12.5"></rect> <rect fill="#000050" width="27" x="41" height="25" y="275"></rect><rect fill="#00008c" width="27" x="69" height="43.75" y="256.25"></rect><rect fill="#0000ff" width="27" x="97" height="100" y="200"></rect><rect fill="#0000ff" width="27" x="125" height="162.5" y="137.5"></rect><br><br><a href="/quattrogatti">reset form</a>')
         }
         else {   
                         
@@ -210,6 +211,83 @@
         outline: 0 none;
     }
     </style>
+
+<script>
+
+var margin = {top: 40, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.scale.ordinal()
+    .rangeRoundBands([0, width], .1);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(formatPercent);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Famiglie a "+ d.euro +" euro:</strong> <span style='color:red'>" + d.barre + "</span>";
+  })
+
+var svg = d3.select("#d3").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg.call(tip);
+
+d3.csv("barre.csv", type, function(error, data) {
+  x.domain(data.map(function(d) { return d.euro; }));
+  y.domain([0, d3.max(data, function(d) { return d.barre; })]);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Frequency");
+
+  svg.selectAll(".bar")
+      .data(data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.euro); })
+      .attr("width", x.rangeBand())
+      .attr("y", function(d) { return y(d.barre); })
+      .attr("height", function(d) { return height - y(d.barre); })
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+
+});
+
+function type(d) {
+  d.barre = +d.barre;
+  return d;
+}
+
+</script>
     </body>
 </html>
 
