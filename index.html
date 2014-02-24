@@ -218,7 +218,7 @@ var margin = {top: 40, right: 20, bottom: 30, left: 40},
     width = 475 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom;
 
-var formatPercent = d3.format("000"); // come formattare indicatori asse Y
+var format = d3.format(""); // come formattare indicatori asse Y
 
 var x = d3.scale.ordinal()
     .rangeRoundBands([0, width], .1);
@@ -233,7 +233,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .tickFormat(formatPercent);
+    .tickFormat(format);
 
 var tip = d3.tip()
   .attr('class', 'd3-tip')
@@ -295,6 +295,12 @@ function type(d) {
             fill: orange;
             stroke: oranged;
             margin-right: 3px;
+            display: inline-block;
+	        width: 10px;
+	        /*background: #369; color:white;*/
+	        border:3px outset #69c;
+	        border-bottom:1px solid #000;
+	        border-radius:2px 2px 0 0;
             
         }
         .bar:hover {
