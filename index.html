@@ -20,80 +20,155 @@
             sottostante. Si pu&ograve; decidere cosa indicare, se la dicitura o l&apos;intero. Pagina 2 ancora in lavorazione</h5>
           </div>
         </div>
-        <div class="container"> 
-            <div class="col-md-5" style="margin-top:35px;">
-                <div id="stage1" style="display:block">
-                <form id="form1" role="form" action="">
-                    <div class="row">
-                      
-                        <div class="form-group" id="text1">
-                            <label for="income" > Reddito <span id="income">netto</span> della tua <span id="family">famiglia</span> da <span id="source">tutte le fonti</span></label>
-                            <input type="text" class="form-control text" name="income" placeholder="&euro;">
-                        
-                       
-                            <div class="popout" id="popout_income" data-toggle="popover" data-content="ci&ograve; che rimane in tasca dopo le tasse"></div>
-                            <div class="popout" id="popout_family" data-toggle="popover" data-content="<b>sommare</b> quindi tutti i redditi dei componenti della famiglia (marito, moglie, altri componenti economicamente attivi)"></div>
-                            <div class="popout" id="popout_source" data-toggle="popover" data-content="da lavoro, affitti seconde case, lavoro autonomo, pensioni, sussiudi statali ecc."></div>
-                        </div>
-                    </div>
-       
-                    <div class="row">
-                      
-                        <div class="form-group">
-                            <label for="adults">Numero di adulti (&gt;18 anni) nella tua famiglia</label>
-                            <input type="text" class="form-control text" name="adults" placeholder="">
-                        </div>
-                    </div>
-                    <div class="row">
-                      
-                        <div class="form-group">
-                            <label for="youngers">Numero di minori (&lt;18 anni) nella tua famiglia</label>
-                            <input type="text" class="form-control text" name="youngers" placeholder="">
-                        </div>
-                    </div>
-                
-                    <div class="row">
-                      
-                        <div class="form-group">
-                            <label for="slider">La tua percezione</label>
-                            <div class="row">
-                                <div class="col-md-6" name="slider" id="slider" style="margin-top:25px;"></div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6" id="amount" style="color:#777;font-size:20px;text-align:center;"></div>
-                            </div>
-                            <!-- <div class="row">
-                                <div class="col-md-6" id="amount_integer" style="color:#777;font-size:20px;text-align:center;"></div>
-                            </div> -->
-                        </div>
-                    </div>
+        <div class="container" id="main"> 
 
-                    <!--  The div that is used to display the slider value  -->
-                    
-                    <input type="hidden" name="slider_value" value="50"/>
-                    
-                    <div class="row">
-                      <div class=""></div>
-                        <div class="form-group col-md-4">
-                            <button class="btn btn-primary" id="submit" style="font-size:22px;">Invia</button>
-                        </div>
-                    </div>
-                </form>
-                </div>
-            </div>
-          
-            <div class="col-md-5" style="margin-top:35px;"  >
-                <div id="stage2" style="display:none">
-                  Famiglie italiane:
-                  <div id="d3"></div>
-                </div>
-            </div>
-          
-    </div>
+
+        </div>
 
     <script>
+    var stage1 = '<div class="col-md-5" style="margin-top:35px;"><div id="stage1" style="display:block"><form id="form1" role="form" action="">'+
+                    '<div class="row">'+
+
+                        '<div class="form-group" id="text1">'+
+                            '<label for="income" > Reddito <span id="income">netto</span> della tua <span id="family">famiglia</span> da <span id="source">tutte le fonti</span></label>'+
+                            '<input type="text" class="form-control text" name="income" placeholder="&euro;">'+
+
+                            '<div class="popout" id="popout_income" data-toggle="popover" data-content="ci&ograve; che rimane in tasca dopo le tasse"></div>'+
+                            '<div class="popout" id="popout_family" data-toggle="popover" data-content="<b>sommare</b> quindi tutti i redditi dei componenti della famiglia (marito, moglie, altri componenti economicamente attivi)"></div>'+
+                            '<div class="popout" id="popout_source" data-toggle="popover" data-content="da lavoro, affitti seconde case, lavoro autonomo, pensioni, sussiudi statali ecc."></div>'+
+                        '</div>'+
+                    '</div>'+
+
+                    '<div class="row">'+
+
+                        '<div class="form-group">'+
+                            '<label for="adults">Numero di adulti (&gt;18 anni) nella tua famiglia</label>'+
+                            '<input type="text" class="form-control text" name="adults" placeholder="">'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="row">'+
+
+                        '<div class="form-group">'+
+                            '<label for="youngers">Numero di minori (&lt;18 anni) nella tua famiglia</label>'+
+                            '<input type="text" class="form-control text" name="youngers" placeholder="">'+
+                        '</div>'+
+                    '</div>'+
+
+                    '<div class="row">'+
+
+                        '<div class="form-group">'+
+                            '<label for="slider">La tua percezione</label>'+
+                            '<div class="row">'+
+                                '<div class="col-md-6" name="slider" id="slider" style="margin-top:25px;"></div>'+
+                            '</div>'+
+
+                            '<div class="row">'+
+                                '<div class="col-md-6" id="amount" style="color:#777;font-size:20px;text-align:center;"></div>'+
+                            '</div>'+
+                            '<!-- <div class="row">'+
+                        '</div>'+
+                    '</div>'+
+
+                    '<!--  The div that is used to display the slider value  -->'+
+
+                    '<input type="hidden" name="slider_value" value="50"/>'+
+
+                    '<div class="row">'+
+                      '<div class=""></div>'+
+                        '<div class="form-group col-md-4">'+
+                            '<button class="btn btn-primary" id="submit" style="font-size:22px;">Invia</button>'+
+                        '</div>'+
+                    '</div>'+
+                '</form>'+
+                '</div>'+
+            '</div>';
+
+    var stage2 = '<div class="col-md-5" style="margin-top:35px;"  >'+
+                     '<div id="stage2" style="">'+
+                         'Famiglie italiane:'+
+                     '<div id="d3"></div>'+
+                     '</div>'+
+                 '</div>';      
+    
     $(document).ready(function () {
+        var drawBars = function() {
+            var margin = {top: 40, right: 20, bottom: 30, left: 40},
+                width = 475 - margin.left - margin.right,
+                height = 380 - margin.top - margin.bottom;
+
+            var format = d3.format(""); // come formattare indicatori asse Y
+
+            var x = d3.scale.ordinal()
+                .rangeRoundBands([0, width], .15);
+
+            var y = d3.scale.linear()
+                .range([height, 0]);
+
+            var xAxis = d3.svg.axis()
+                .scale(x)
+                .orient("bottom")
+                .tickValues([1, 15, 31, 50, 65, 79]);;
+
+            var yAxis = d3.svg.axis()
+                .scale(y)
+                .orient("left")
+                //.tickFormat(format);
+
+            var tip = d3.tip()
+              .attr('class', 'd3-tip')
+              .offset([-10, 0])
+              .html(function(d) {
+                return "<strong>Famiglie con "+ d.euro +".000 euro<br>di reddito netto</strong>";
+              })
+
+            var svg = d3.select("#d3").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+              .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            svg.call(tip);
+
+            d3.csv("barre.csv", type, function(error, data) {
+              x.domain(data.map(function(d) { return d.euro; }));
+              y.domain([0, d3.max(data, function(d) { return d.barre; })]);
+
+              svg.append("g")
+                  .attr("class", "x_axis")
+                  .attr("transform", "translate(0," + height + ")")
+                  .call(xAxis);
+
+              svg.append("g")
+                  .attr("class", "y_axis")
+                  .call(yAxis)
+                .append("text")
+                  .attr("class", "value")
+                  .attr("transform", "rotate(-90)")
+                  .attr("y", 6)
+                  .attr("dy", ".71em")
+                  .style("text-anchor", "end")
+                  .text("Migliaia di famiglie");
+
+              svg.selectAll(".bar")
+                  .data(data)
+                .enter().append("rect")
+                  .attr("class", "bar")
+                  .attr("x", function(d) { return x(d.euro); })
+                  .attr("width", x.rangeBand())
+                  .attr("y", function(d) { return y(d.barre); })
+                  .attr("height", function(d) { return height - y(d.barre); })
+                  .on('mouseover', tip.show)
+                  .on('mouseout', tip.hide)
+
+            });
+
+            function type(d) {
+              d.barre = +d.barre;
+              return d;
+            }
+    }
+    
+    
         params = []
         location.search.substr(1).split("&").forEach(function(item) { if (item) { params.push([item.split("=")[0], item.split("=")[1]])} })
         console.log(params.length)
@@ -101,13 +176,14 @@
         if (params.length != 0)
         
         {
-            $("#stage1").css("display", "none")
-            $("#stage2").css("display", "block")
+            $("#main").html(stage2)
+            drawBars();
             $("#stage2").append("<span>"+params+"</span>")
             $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
         }
         else {   
-                        
+            
+            $("#main").html(stage1)            
             var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
              
             // Create a new jQuery UI Slider element
@@ -201,83 +277,9 @@
 
 <script>
 
-    var margin = {top: 40, right: 20, bottom: 30, left: 40},
-        width = 475 - margin.left - margin.right,
-        height = 380 - margin.top - margin.bottom;
-
-    var format = d3.format(""); // come formattare indicatori asse Y
-
-    var x = d3.scale.ordinal()
-        .rangeRoundBands([0, width], .15);
-
-    var y = d3.scale.linear()
-        .range([height, 0]);
-
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom")
-        .tickValues([1, 15, 31, 50, 65, 79]);;
-
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
-        //.tickFormat(format);
-
-    var tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .offset([-10, 0])
-      .html(function(d) {
-        return "<strong>Famiglie con "+ d.euro +".000 euro<br>di reddito netto</strong>";
-      })
-
-    var svg = d3.select("#d3").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    svg.call(tip);
-
-    d3.csv("barre.csv", type, function(error, data) {
-      x.domain(data.map(function(d) { return d.euro; }));
-      y.domain([0, d3.max(data, function(d) { return d.barre; })]);
-
-      svg.append("g")
-          .attr("class", "x_axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
-
-      svg.append("g")
-          .attr("class", "y_axis")
-          .call(yAxis)
-        .append("text")
-          .attr("class", "value")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Migliaia di famiglie");
-
-      svg.selectAll(".bar")
-          .data(data)
-        .enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", function(d) { return x(d.euro); })
-          .attr("width", x.rangeBand())
-          .attr("y", function(d) { return y(d.barre); })
-          .attr("height", function(d) { return height - y(d.barre); })
-          .on('mouseover', tip.show)
-          .on('mouseout', tip.hide)
-
-    });
-
-    function type(d) {
-      d.barre = +d.barre;
-      return d;
-    }
-
 </script>
 
 </body>
 </html>
+
 
