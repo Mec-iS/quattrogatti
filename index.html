@@ -241,7 +241,7 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>Famiglie a "+ d.euro +".000 euro</strong>";
+    return "<strong>Famiglie con "+ d.euro +".000 euro<br>di reddito netto</strong>";
   })
 
 var svg = d3.select("#d3").append("svg")
@@ -270,7 +270,7 @@ d3.csv("barre.csv", type, function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Famiglie");
+      .text("Migliaia di famiglie");
 
   svg.selectAll(".bar")
       .data(data)
