@@ -191,7 +191,7 @@
                     var result = $.csv.toObjects(data);
                     var percent = 0;
                     console.log(result[5].cutoff)
-                    for (i in result){
+                    for (var i=0; i < result.length; i++){
                         //console.log(result[i])
                         if (parseInt(result[i].cutoff) > equivalent){
                           i = parseInt(i)-1
@@ -202,7 +202,7 @@
                     console.log(equivalent, percent)
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+"euro<br/>"+
-                              "Sei più ricco del "+precent+"% degli italiani<br/><br/>")
+                              "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
                   }
                  });
             
