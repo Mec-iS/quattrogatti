@@ -207,8 +207,7 @@
                     drawBars();
 
                     id = Math.floor(equivalent/1000)
-                    $("#"+id).attr("fill", "orangered");
-                    location.reload();
+                    
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
@@ -228,6 +227,8 @@
                 } //end success function
 
             });
+
+            $("#"+id).attr("fill", "orangered");
 
             /* fine definizione stage 2 */
         }
