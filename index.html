@@ -190,7 +190,7 @@
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toObjects(data);
-                    var equivalent = params[0][1] / (1+Math.max(params[1][1]-1,0) + (params[2][1] * .3))
+                    var equivalent = Math.ceil(params[0][1] / (1+Math.max(params[1][1]-1,0) + (params[2][1] * .3)))
                     var percent = 1;
                     console.log(result, equivalent, Object.keys(result).length)
                     for (var i=0; i < Object.keys(result).length; i++){
@@ -203,8 +203,8 @@
                         } 
 
                     }
-                    console.log(equivalent, percent)
-                    $("#"+equivalent+"").toggleClass("hovered");
+                    console.log(equivalent, percent, Math.round(Math.ceil(equivalent)/1000)*1000)
+                    $("#"+Math.round(Math.ceil(equivalent)/1000)*1000+"").toggleClass("hovered");
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
