@@ -13,7 +13,7 @@ span
 .bar
 {
     /*fill: orange;*/
-    stroke: oranged;
+    stroke: orangered;
     margin: 3px 3px;
     display: inline-block;
     border:3px outset #69c;

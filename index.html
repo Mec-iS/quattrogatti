@@ -187,7 +187,6 @@
             $.ajax({
                   type: "GET",
                   url: "cutoffs.csv",
-                  async: false,
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toObjects(data);
@@ -206,7 +205,7 @@
                     }
                     console.log(equivalent, percent, Math.floor(equivalent/1000))
                     id = Math.floor(equivalent/1000)
-                    $("#"+id+"").attr("fill", "#B80");
+                    $("#"+id).attr("fill", "#B80");
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
