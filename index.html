@@ -155,6 +155,7 @@
                   .data(data)
                 .enter().append("rect")
                   .attr("class", "bar")
+                  .attr("id", function(d) { return d.euro+".000"; })
                   .attr("x", function(d) { return x(d.euro); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.barre); })
@@ -206,12 +207,13 @@
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
+                    $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
                   
                   }
                  });
             
             
-            $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+            
             /* fine definizione stage 2 */
         }
         
