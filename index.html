@@ -155,7 +155,7 @@
                   .data(data)
                 .enter().append("rect")
                   .attr("class", "bar")
-                  .attr("id", function(d) { return d.euro+".000"; })
+                  .attr("id", function(d) { return d.euro; })
                   .attr("x", function(d) { return x(d.euro); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.barre); })
@@ -204,6 +204,7 @@
 
                     }
                     console.log(equivalent, percent)
+                    $("#"+equivalent+"").toggleClass("hovered");
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
