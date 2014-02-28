@@ -188,9 +188,9 @@
                   url: "cutoffs.csv",
                   dataType: "text",
                   success: function(data) {
-                    var result = $.csv.toObjects(data);
+                    var result = $.csv.toArrays(data);
                     var percent = 0;
-                    console.log(result[5].cutoff)
+                    console.log(result)
                     for (var i=0; i < result.length; i++){
                         //console.log(result[i])
                         if (parseInt(result[i].cutoff) > equivalent){
