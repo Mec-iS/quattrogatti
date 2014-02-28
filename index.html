@@ -189,11 +189,20 @@
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toObjects(data);
-                    console.log(result, equivalent)
+                    var percent;
+                    
+                    for (i in result){
+                        if (result.i.cutoff > equivalent) percent=result.i.perc
+
+                    }
+                    console.log(result, equivalent, percent)
+                    $("#stage2").append(
+                              "<span>Hai un reddito equivalente di:</span> "+equivalent+"euro<br/>"+
+                              "Sei più ricco del "+precent+"% degli italiani<br/><br/>")
                   }
                  });
             
-            $("#stage2").append("<span>"+params+"</span> = "+equivalent)
+            
             $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
             /* fine definizione stage 2 */
         }
