@@ -212,22 +212,21 @@
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
                     
 
-                    stated = params[3][1]
+                    stated = params[3][1];
+                    said = "";
                     if ( stated  < 10)  said = status[0];
                         else if ( stated > 12 && stated < 30) said = status[1];
                         else if ( stated > 32 && stated < 54) said = status[2];
                         else if ( stated > 56 && stated < 68) said = status[3];
                         else if ( stated  > 70)  said = status[4];
-                  
-                      }
 
                     $("#stage2").append("Tu credevi di essere "+said+"<br/>")
                     $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+                  
+                } //end success function
 
-                 });
-            
-            
-            
+            });
+
             /* fine definizione stage 2 */
         }
         
