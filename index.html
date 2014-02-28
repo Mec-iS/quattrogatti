@@ -189,13 +189,13 @@
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toArrays(data);
-                    var percent = 0;
+                    var percent = 1;
                     console.log(result)
-                    /*for (var i=0; i < result.length; i++){
+                    for (var i=1; i < result.length; i++){
                         //console.log(result[i])
-                        if (parseInt(result[i].cutoff) > equivalent){
+                        if (parseInt(result[i][0]]) > equivalent){
                           i = parseInt(i)-1
-                          percent=result[i].perc
+                          percent=result[i][1]
                         } 
 
                     }
@@ -203,7 +203,7 @@
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+"euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
-                  */
+                  
                   }
                  });
             
