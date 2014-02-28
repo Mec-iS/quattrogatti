@@ -187,6 +187,7 @@
             $.ajax({
                   type: "GET",
                   url: "cutoffs.csv",
+                  async: false;
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toObjects(data);
