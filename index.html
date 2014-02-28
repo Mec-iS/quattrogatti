@@ -94,7 +94,8 @@
                  '</div>';      
     
     $(document).ready(function () {
-        
+
+        var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
         /* funzione d3.js per grafico distribuzione reddito famiglie */
         var drawBars = function() {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
@@ -209,9 +210,20 @@
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
-                    $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+                    
+
+                    stated = params[3][1]
+                    if ( stated  < 10)  said = status[0];
+                        else if ( stated > 12 && stated < 30) said = status[1];
+                        else if ( stated > 32 && stated < 54) said = status[2];
+                        else if ( stated > 56 && stated < 68) said = status[3];
+                        else if ( stated  > 70)  said = status[4];
                   
-                  }
+                      }
+
+                    $("#stage2").append("Tu credevi di essere "+said+"<br/>")
+                    $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+
                  });
             
             
@@ -224,7 +236,7 @@
             
             /* stage 1 */
             $("#main").html(stage1)            
-            var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
+            
              
             // Create a new jQuery UI Slider element
             // and set some default parameters.
