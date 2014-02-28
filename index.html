@@ -101,7 +101,7 @@
 
         var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
         /* funzione d3.js per grafico distribuzione reddito famiglie */
-        var drawBars = function() {
+        var drawBars = function(level) {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
                 width = document.documentElement.clientWidth*0.65 - margin.left - margin.right,
                 height = document.documentElement.clientHeight*0.65 - margin.top - margin.bottom;
@@ -160,7 +160,10 @@
                   .data(data)
                 .enter().append("rect")
                   .attr("class", "bar")
-                  .attr("id", function(d) { return d.euro; })
+                  .attr("fill", function(d) {
+                                           if (level == d.euro) return "orangered"; 
+                                           else return "orange"
+                                         })
                   .attr("x", function(d) { return x(d.euro); })
                   .attr("width", x.rangeBand())
                   .attr("y", function(d) { return y(d.barre); })
@@ -186,7 +189,7 @@
         {
             /* stage 2 */
             $("#main").html(stage2)
-            drawBars();
+            
             
             console.log(params[0][1], params[1][1], params[2][1])
             $.ajax({
@@ -209,8 +212,10 @@
 
                     }
                     console.log(equivalent, percent, Math.floor(equivalent/1000))
-                    id = Math.floor(equivalent/1000)
-                    $("#"+id).attr("fill", "#B80000");
+                    level = Math.floor(equivalent/1000)
+                    
+                    drawBars(level);
+                    
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
