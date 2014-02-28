@@ -189,8 +189,8 @@
                   dataType: "text",
                   success: function(data) {
                     var result = $.csv.toObjects(data);
-                    var percent;
-                    console.log(result)
+                    var percent = 0;
+                    console.log(result[5])
                     for (i in result){
                         if (result[i].cutoff > equivalent){
                           i = parseInt(i)-1
