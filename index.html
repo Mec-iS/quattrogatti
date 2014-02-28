@@ -188,21 +188,22 @@
                   url: "cutoffs.csv",
                   dataType: "text",
                   success: function(data) {
-                    var result = $.csv.toArrays(data);
+                    var result = $.csv.toObjects(data);
                     var equivalent = parseInt(params[0][1] / (1+Math.max(params[1][1]-1,0) + (params[2][1] * .3)))
                     var percent = 1;
-                    //console.log(result)
-                    for (var i=1; i < result.length; i++){
+                    console.log(Object.keys(result).length)
+                    for (var i=0; i < Object.keys(result).length; i++){
                         //console.log(result[i])
-                        if (parseInt(result[i][0]) > equivalent){
+                        if (parseInt(result[i].cutoff) > equivalent){
                           i = parseInt(i)-1
-                          percent=result[i][1]
+                          percent=result[i].perc
+
                         } 
 
                     }
                     console.log(equivalent, percent)
                     $("#stage2").append(
-                              "<span>Hai un reddito equivalente di:</span> "+equivalent+"euro<br/>"+
+                              "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
                   
                   }
