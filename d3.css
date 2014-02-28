@@ -21,13 +21,9 @@ span
     border-radius:2px 2px 0 0;
 
 }
+
 .bar:hover {
     fill: orangered;
-}
-
-.equivalent {
-    fill: orangend;
-
 }
 
 .label
@@ -37,6 +33,7 @@ span
     color: gray;
     fill-opacity: .6;
 }
+
 .x_axis,
 .y_axis {
     font-size: .6em;
