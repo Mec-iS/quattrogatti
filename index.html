@@ -181,7 +181,7 @@
             /* stage 2 */
             $("#main").html(stage2)
             drawBars();
-            equivalent = params[0][1] / (1+Math.max(params[1][1]-1,0) + (params[2][1] * .3))
+            equivalent = parseInt(params[0][1] / (1+Math.max(params[1][1]-1,0) + (params[2][1] * .3)))
             console.log(params[0][1], params[1][1], params[2][1], equivalent)
             $.ajax({
                   type: "GET",
@@ -190,9 +190,10 @@
                   success: function(data) {
                     var result = $.csv.toObjects(data);
                     var percent = 0;
-                    console.log(result[5])
+                    console.log(result[5].cutoff)
                     for (i in result){
-                        if (result[i].cutoff > equivalent){
+                        //console.log(result[i])
+                        if (parseInt(result[i].cutoff) > equivalent){
                           i = parseInt(i)-1
                           percent=result[i].perc
                         } 
