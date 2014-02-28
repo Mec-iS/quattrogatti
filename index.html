@@ -181,8 +181,7 @@
         {
             /* stage 2 */
             $("#main").html(stage2)
-            drawBars();
-            
+                        
             console.log(params[0][1], params[1][1], params[2][1])
             $.ajax({
                   type: "GET",
@@ -204,8 +203,12 @@
 
                     }
                     console.log(equivalent, percent, Math.floor(equivalent/1000))
+
+                    drawBars();
+
                     id = Math.floor(equivalent/1000)
                     $("#"+id).attr("fill", "orangered");
+                    location.reload();
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
