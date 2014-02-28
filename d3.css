@@ -24,6 +24,12 @@ span
 .bar:hover {
     fill: orangered;
 }
+
+.equivalent {
+    fill: orangend;
+
+}
+
 .label
 {
     font-family: Verdana;
