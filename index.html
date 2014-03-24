@@ -137,6 +137,8 @@
             svg.call(tip);
 
             d3.csv("barre.csv", type, function(error, data) {
+            
+            console.log(error)
               x.domain(data.map(function(d) { return d.euro; }));
               y.domain([0, d3.max(data, function(d) { return d.barre; })]);
 
