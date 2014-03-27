@@ -103,7 +103,7 @@
         var drawBars = function(level, stated) {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
                 width = document.documentElement.clientWidth*0.65 - margin.left - margin.right,
-                height = document.documentElement.clientHeight*0.65 - margin.top - margin.bottom;
+                height = document.documentElement.clientHeight*0.80 - margin.top - margin.bottom;
 
             var x = d3.scale.ordinal()
                 .rangeRoundBands([0, width], .15);
@@ -161,7 +161,7 @@
                   .attr("class", "bar")
                   .attr("fill", function(d) {
                                            if (level == d.euro) return "orangered"; 
-                                           else if ((100 - stated) == d.euro) return "orangered";
+                                           else if ((100 - stated) == d.euro) return "#ccc";
                                            else return "orange"
                                          })
                   .attr("x", function(d) { return x(d.euro); })
@@ -171,13 +171,13 @@
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide)
 
-              var canvas = d3.select("#d3")
+             /* var canvas = d3.select("#d3")
 		    .append("svg:svg")
 		      .attr("width", width)
 		      .attr("height", 150)
 		      .html(function(d) {
 				return "<strong>canvas zone</strong>";
-              });
+              });*/
 
             });
 
@@ -236,7 +236,7 @@
                     
                     position = 100-stated
 
-                    $("#stage2").append("Tu credevi di essere nella "+position+"esima fascia<br/>")
+                    $("#stage2").append("Tu credevi di essere nella <strong class=\"grey\">"+position+"esima fascia</strong><br/>")
                     $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
                   
                 } //end success function
