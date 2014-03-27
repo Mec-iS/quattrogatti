@@ -36,12 +36,10 @@
                     '<div class="row">'+
 
                         '<div class="form-group" id="text1">'+
-                            '<label for="income" > Reddito <span id="income">netto</span> della tua <span id="family">famiglia</span> da <span id="source">tutte le fonti</span></label>'+
+                            '<label for="income" > Reddito <span id="stick">annuale netto della tua famiglia</span></label>'+
                             '<input type="text" class="form-control text" name="income" placeholder="&euro;">'+
 
-                            '<div class="popout" id="popout_income" data-toggle="popover" data-content="ci&ograve; che rimane in tasca dopo le tasse"></div>'+
-                            '<div class="popout" id="popout_family" data-toggle="popover" data-content="<b>sommare</b> quindi tutti i redditi dei componenti della famiglia (marito, moglie, altri componenti economicamente attivi)"></div>'+
-                            '<div class="popout" id="popout_source" data-toggle="popover" data-content="da lavoro, affitti seconde case, lavoro autonomo, pensioni, sussiudi statali ecc."></div>'+
+                            '<div class="popout" id="popout" data-toggle="popover" data-content="Inserisci il tuo redditto annuale in EURO. <br/> Assicurati che il reddito sia: <ul><li>Netto: ci&ograve; che rimane in tasca dopo le tasse</li><li>Annuale: includi eventuali redditi da lavori stagionali e/o tredicesime ecc</li><li>Familiare: la somma dei redditi di tutti i componenti della famiglia (marito, moglie ed altri componenti economicamente attivi)</li></ul> "></div>'+
                         '</div>'+
                     '</div>'+
 
@@ -63,7 +61,7 @@
                     '<div class="row">'+
 
                         '<div class="form-group">'+
-                            '<label for="slider">Dove pensi si posizioni la tua famiglia rispetto alle altre '+
+                            '<label for="slider">Come pensi sia la <span id="explain">posizione della tua famiglia</span> rispetto alle altre '+
                             'famiglie italiane?</label>'+
                             '<div class="row">'+
                                 '<div class="col-md-6" name="slider" id="slider" style="margin-top:25px;"></div>'+
@@ -72,7 +70,7 @@
                             '<div class="row">'+
                                 '<div class="col-md-6" id="amount" style="color:#777;font-size:20px;text-align:center;"></div>'+
                             '</div>'+
-                            '<!-- <div class="row">'+
+                            '<div class="popout" id="popout_explain" data-toggle="popover" data-content="Immagina di classificare le famiglie italiane dalla pi&ugrave; ricca al primo posto alla più povera al centesimo. Dove si piazzerebbe la tua?"></div>'+
                         '</div>'+
                     '</div>'+
 
@@ -102,7 +100,7 @@
 
         var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
         /* funzione d3.js per grafico distribuzione reddito famiglie */
-        var drawBars = function(level) {
+        var drawBars = function(level, stated) {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
                 width = document.documentElement.clientWidth*0.65 - margin.left - margin.right,
                 height = document.documentElement.clientHeight*0.65 - margin.top - margin.bottom;
@@ -116,7 +114,7 @@
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
-                .tickValues([1, 15, 31, 50, 65, 79]);;
+                .tickValues([1, 15, 31, 50, 65, 78]);;
 
             var yAxis = d3.svg.axis()
                 .scale(y)
@@ -163,6 +161,7 @@
                   .attr("class", "bar")
                   .attr("fill", function(d) {
                                            if (level == d.euro) return "orangered"; 
+                                           else if ((100 - stated) == d.euro) return "orangered";
                                            else return "orange"
                                          })
                   .attr("x", function(d) { return x(d.euro); })
@@ -171,6 +170,14 @@
                   .attr("height", function(d) { return height - y(d.barre); })
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide)
+
+              var canvas = d3.select("#d3")
+		    .append("svg:svg")
+		      .attr("width", width)
+		      .attr("height", 150)
+		      .html(function(d) {
+				return "<strong>canvas zone</strong>";
+              });
 
             });
 
@@ -212,16 +219,21 @@
 
                     }
                     console.log(equivalent, percent, Math.floor(equivalent/1000))
-                    level = Math.floor(equivalent/1000)
                     
-                    drawBars(level);
+                    level = Math.floor(equivalent/1000)
+                    stated = parseInt(params[3][1])
+                    if (stated <= 21) stated = 21
+
+                    console.log(equivalent, percent, Math.floor(equivalent/1000), stated)
+                    
+                    drawBars(level, stated);
                     
                     $("#stage2").append(
                               "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
                     
 
-                    stated = params[3][1];
+                    
                     said = "";
                     if ( stated  < 10)  said = status[0];
                         else if ( stated > 12 && stated < 30) said = status[1];
@@ -229,7 +241,7 @@
                         else if ( stated > 56 && stated < 68) said = status[3];
                         else if ( stated  > 70)  said = status[4];
 
-                    $("#stage2").append("Tu credevi di essere "+said+"<br/>")
+                    $("#stage2").append("Tu credevi di essere "+stated+"<br/>")
                     $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
                   
                 } //end success function
@@ -258,6 +270,7 @@
                 // While sliding, update the value in the #amount div element
                 
                 $( "#amount" ).html( 100 - ui.value );
+                $( "[name=slider_value]" ).val( 100 - ui.value );
                 
               }
             });
@@ -269,24 +282,18 @@
             $("[name=income]").focus();
             
             // componente bootstrap per il popout
-            $(".popout").popover({container: 'body', html: true, placement: 'bottom'})
-                $("#income").mouseover(function(){
-                    $("#popout_income").popover('show');
+            $(".popout").popover({container: 'body', html: true, placement: 'right'})
+                $("#stick").mouseover(function(){
+                    $("#popout").popover('show');
                 });
-                $("#family").mouseover(function(){
-                    $("#popout_family").popover('show');
+                $("#stick").mouseleave(function(){
+                    $("#popout").popover('hide');
                 });
-                $("#source").mouseover(function(){
-                    $("#popout_source").popover('show');
+                $("#explain").mouseover(function(){
+                    $("#popout_explain").popover('show');
                 });
-                $("#income").mouseleave(function(){
-                    $("#popout_income").popover('hide');
-                });
-                $("#family").mouseleave(function(){
-                    $("#popout_family").popover('hide');
-                });
-                $("#source").mouseleave(function(){
-                    $("#popout_source").popover('hide');
+                $("#explain").mouseleave(function(){
+                    $("#popout_explain").popover('hide');
                 });
             /* fine definizione stage 1 */
          } 
