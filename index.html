@@ -91,14 +91,12 @@
     /* HTML string stage 2 */
     var stage2 = '<div class="col-md-5" style="margin-top:35px;"  >'+
                      '<div id="stage2" style="">'+
-                         'Famiglie italiane:'+
                      '<div id="d3"></div>'+
                      '</div>'+
                  '</div>';      
     
     $(document).ready(function () {
 
-        var status = ['molto povero', 'povero', 'nella media', 'benestante', 'ricco']
         /* funzione d3.js per grafico distribuzione reddito famiglie */
         var drawBars = function(level, stated) {
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
@@ -109,12 +107,12 @@
                 .rangeRoundBands([0, width], .15);
 
             var y = d3.scale.linear()
-                .range([height, 0]);
+                .range([height, 1.2]);
 
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
-                .tickValues([1, 15, 31, 50, 65, 78]);;
+                .tickValues([0, 15, 31, 50, 65, 79]);;
 
             var yAxis = d3.svg.axis()
                 .scale(y)
@@ -153,9 +151,9 @@
                   .attr("y", 6)
                   .attr("dy", ".71em")
                   .style("text-anchor", "end")
-                  .text("Migliaia di famiglie");
+                  .text("Famiglie italiane");
 
-              svg.selectAll(".bar")
+              var bars = svg.selectAll(".bar")
                   .data(data)
                 .enter().append("rect")
                   .attr("class", "bar")
@@ -171,7 +169,13 @@
                   .on('mouseover', tip.show)
                   .on('mouseout', tip.hide)
 
-             /* var canvas = d3.select("#d3")
+            /* bars.append("text")
+		  .text(function(d) {
+		      if (level == d.euro) return "Il tuo reddito netto"; 
+		      else if ((100 - stated) == d.euro) return "La tua percezione";
+  	          })
+
+              var canvas = d3.select("#d3")
 		    .append("svg:svg")
 		      .attr("width", width)
 		      .attr("height", 150)
@@ -301,8 +305,9 @@
             validate = [income, adults, youngers]
 
             for (var i=0; i < validate.length; i++){
+                var objRegExp  = /(^-?\d\d*$)/; 
                 validate[i].closest('.form-group').removeClass('has-error');
-                if (validate[i].val() == ""){
+                if (validate[i].val() == "" || validate[i].val() < 0 || objRegExp.test(validate[i].val()) != true ){
                     validate[i].closest('.form-group').addClass('has-error');
                     validate[i].focus()
                     return false;
