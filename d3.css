@@ -72,6 +72,10 @@ span
   color: #ccc;
 }
 
+.red { 
+  color: red;
+}
+
 /* Creates a small triangle extender for the tooltip */
 .d3-tip:after {
   box-sizing: border-box;

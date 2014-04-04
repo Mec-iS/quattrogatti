@@ -225,13 +225,23 @@
                         //console.log(result[i])
                         if (result[i]['cutoff'] > equivalent){
                           p = parseInt(i)-1
+                          console.log(p)
                           percent=result[p]['perc']
-                            if (percent == position){
-                                esteem = Math.floor(result[p]['cutoff']/1000)
-                          }
+                          break
                         } 
 
                     }
+                    console.log(result)
+                    for (var k=0; k < Object.keys(result).length; k++){
+                          //console.log(result[k])
+                          if (result[k]['perc'] == position){
+                                esteem = Math.floor(result[k]['cutoff']/1000)
+                                break
+                          } 
+
+                    }
+
+
                     console.log(equivalent, percent, Math.floor(equivalent/1000))
                     
                     var level = Math.floor(equivalent/1000)
@@ -244,7 +254,7 @@
                     drawBars(level, esteem);
                     
                     $("#stage2").append(
-                              "<span>Hai un reddito equivalente di:</span> "+equivalent+" euro<br/>"+
+                              "Hai un reddito equivalente di: <strong class=\"red\">"+equivalent+" euro</strong><br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
 
 
