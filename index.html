@@ -112,7 +112,7 @@
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
-                .tickValues([0, 15, 31, 50, 65, 79]);;
+                .tickValues([0, 15, 31, 50, 65, 79, 'o +']);;
 
             var yAxis = d3.svg.axis()
                 .scale(y)
@@ -215,7 +215,7 @@
                   success: function(data) {
                     var result = $.csv.toObjects(data);
                     var equivalent = Math.floor(params[0][1] / (1 + Math.max(params[1][1]-1,0) * .5 + params[2][1] * .3))
-                    var percent = 1;
+                    var percent = 99.9;
                     var stated = parseInt(params[3][1])
                     var position = 100-stated;
                     var esteem = 79;
@@ -225,7 +225,6 @@
                         //console.log(result[i])
                         if (result[i]['cutoff'] > equivalent){
                           p = parseInt(i)-1
-                          console.log(p)
                           percent=result[p]['perc']
                           break
                         } 
@@ -247,8 +246,7 @@
                     var level = Math.floor(equivalent/1000)
                     
                     if (level > 79) level = 79
-                    //if (esteem > 79) esteem = 79
-
+                    
                     console.log(equivalent, percent, Math.floor(equivalent/1000), stated, esteem)
                     
                     drawBars(level, esteem);
