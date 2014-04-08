@@ -120,7 +120,7 @@ var infoGraph = function() {
             var xAxis = d3.svg.axis()
                 .scale(x)
                 .orient("bottom")
-                .tickValues([0, 15, 31, 50, 65, 79, 'o +']);;
+                .tickValues([0, 15, 31, 50, 65, 79]);;
 
             var yAxis = d3.svg.axis()
                 .scale(y)
@@ -233,7 +233,6 @@ var infoGraph = function() {
               
                 //find cutoff for equivalent
                     for (var i=0; i < Object.keys(result).length; i++){
-                        //console.log(result[i])
                         if (result[i]['cutoff'] > equivalent){
                           p = parseInt(i)-1
                           percent=result[p]['perc']
@@ -243,24 +242,19 @@ var infoGraph = function() {
                     }
                 //find cutoff for stated
                     for (var k=0; k < Object.keys(result).length; k++){
-                          //console.log(result[k])
                           if (result[k]['perc'] == position){
                                 esteem = Math.floor(result[k]['cutoff']/1000)
                                 break
                           } 
 
                     }
-
-
-                    //console.log(equivalent, percent, Math.floor(equivalent/1000))
                     
                 var level = Math.floor(equivalent/1000)
                   
                 if (level > 79) level = 79
                     
-                    //console.log(equivalent, percent, Math.floor(equivalent/1000), stated, esteem)
-                    
-                this.draw(level, esteem);
+		// draws the graph with the net level and the declared level                
+		this.draw(level, esteem);
                     
                 $("#stage2").append(
                               "Hai un reddito equivalente di: <strong class=\"red\">"+equivalent+" euro</strong><br/>"+
@@ -280,7 +274,6 @@ $(document).ready(function () {
         var infograph = new infoGraph(); 
         
         //infograph.test()
-        //console.log(infograph.params())
         
         var income = infograph.params()['income']
 
@@ -317,7 +310,7 @@ $(document).ready(function () {
             $( "#slider" ).slider({
               range: "min",
               value: 50,
-              min: 0,
+              min: 1,
               max: 99,
               slide: function( event, ui ) {
               
