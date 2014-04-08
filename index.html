@@ -34,25 +34,25 @@
     var stage1 = '<div class="col-md-5" style="margin-top:35px;"><div id="stage1" style="display:block"><form id="form1" role="form" action="">'+
                     '<div class="row">'+
 
-                        '<div class="form-group" id="text1">'+
-                            '<label for="income" > Reddito <span id="stick">annuale netto della tua famiglia</span></label>'+
+                        '<div class="form-group has-success has-feedback" id="text1">'+
+                            '<i class="glyphicon glyphicon-euro">&nbsp;</i><label for="income" > Reddito <span id="stick">annuale netto della tua famiglia</span></label>'+
                             '<input type="text" class="form-control text" name="income" placeholder="&euro;">'+
 
-                            '<div class="popout" id="popout" data-toggle="popover" data-content="Inserisci il tuo redditto annuale in EURO. <br/> Assicurati che il reddito sia: <ul><li>Netto: ci&ograve; che rimane in tasca dopo le tasse</li><li>Annuale: includi eventuali redditi da lavori stagionali e/o tredicesime ecc</li><li>Familiare: la somma dei redditi di tutti i componenti della famiglia (marito, moglie ed altri componenti economicamente attivi)</li></ul> "></div>'+
+                            '<div class="popout" id="popout" data-toggle="popover" data-content="Inserisci il tuo redditto annuale in EURO. <br/> Assicurati che il reddito sia: <ul><li><u>Netto:</u> ci&ograve; che rimane in tasca dopo le tasse</li><li><u>Annuale:</u> includi eventuali redditi da lavori stagionali e/o tredicesime ecc</li><li><u>Familiare:</u> la somma dei redditi di tutti i componenti della famiglia (marito, moglie ed altri componenti economicamente attivi)</li></ul> "></div>'+
                         '</div>'+
                     '</div>'+
 
                     '<div class="row">'+
 
-                        '<div class="form-group">'+
-                            '<label for="adults">Numero di adulti (&gt;14 anni) nella tua famiglia</label>'+
+                        '<div class="form-group has-success has-feedback">'+
+                            '<i class="glyphicon glyphicon-user">&nbsp;</i><label for="adults">Numero di adulti (&gt;14 anni) nella tua famiglia</label>'+
                             '<input type="text" class="form-control text" name="adults" placeholder="">'+
                         '</div>'+
                     '</div>'+
                     '<div class="row">'+
 
-                        '<div class="form-group">'+
-                            '<label for="youngers">Numero di minori (&lt;14 anni) nella tua famiglia</label>'+
+                        '<div class="form-group has-success has-feedback">'+
+                            '<i class="glyphicon glyphicon-heart">&nbsp;</i><label for="youngers">Numero di minori (&lt;14 anni) nella tua famiglia</label>'+
                             '<input type="text" class="form-control text" name="youngers" placeholder="">'+
                         '</div>'+
                     '</div>'+
@@ -80,7 +80,7 @@
         '<div class="row" style="margin-top:2%;">'+
                       '<div class="col-md-2"></div>'+
                         '<div class="form-group col-md-4">'+
-                            '<button class="btn btn-primary" id="submit" style="font-size:22px;">Scopri la tua posizione reddituale</button>'+
+                            '<button class="btn btn-primary" id="submit" style="font-size:22px;">Scopri la tua posizione reddituale <i class="glyphicon glyphicon-zoom-in"></i></button>'+
                         '</div>'+
                     '</div>'+
                 '</form>'+
@@ -282,11 +282,15 @@ $(document).ready(function () {
         //infograph.test()
         //console.log(infograph.params())
         
+        var income = infograph.params()['income']
+
         if (Object.keys(infograph.params()).length != 0) // if GETs are set
         {
             /* display stage 2 */
             $("#main").html(stage2)
-            
+
+            if (income < 1800)  $("#stage2").append("Questo livello di reddito ("+income+" euro/anno) non &egrave; parte di questa rilevazione statistica<br><span><a href='/quattrogatti'>Torna al form</a></span>")      
+
             $.ajax({ // gets invome statistical data
                   type: "GET",
                   url: "cutoffs.csv",
@@ -331,7 +335,7 @@ $(document).ready(function () {
             $( "#amount" ).html( 50 );
             $("[name=income]").focus();
             
-            // componente bootstrap per il popout
+            // bootstrap component popout
             $(".popout").popover({container: 'body', html: true, placement: 'right'})
                 $("#stick").mouseover(function(){
                     $("#popout").popover('show');
@@ -377,8 +381,8 @@ $(document).ready(function () {
 
       <div class="container">   
           <footer class="row">      
-              <h6>bars&apos; and cutoffs&apos; data is property of Quattrogatti.info - all copyrights applied c 2014<br/>
-                  the rest of the code has been written or adapted by Lorenzo @ <a href="http://moloco.it" target="_blank">MOloco</a> and it is distributed by GNU GPL license</h6>
+              <h6>bars&apos; and cutoffs&apos; data is property of Quattrogatti.info &copy; 2014<br/>
+                  the rest of the code has been written or adapted by Lorenzo@<a href="http://moloco.it" target="_blank">MOloco</a> and it is distributed by GNU GPL license</h6>
           </footerr>
       </div>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
