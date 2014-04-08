@@ -19,18 +19,17 @@
 </head>
     <body>
       <div class="container">   
-          <div class="row">      
+          <header class="row">      
               <h2>Demo Infografica</h2>
                  <h5>Stage 1 completato. Stage 2 calcolo e presentazione dei risultati completato, necessario feedback ed aggiustamenti dal punto di vista grafico.</h5>
-          </div>
-        </div>
-        <div class="container" id="main"> 
-              <!-- hardpoint per stage 1 e 2 --> 
-                 
-        </div>
-
-    <script>
+          </header>
+      </div>
         
+      <div class="container" id="main"> 
+              <!-- hardpoint per stage 1 e 2 -->            
+      </div>
+
+<script>
     /* HTML string stage 1 */
     var stage1 = '<div class="col-md-5" style="margin-top:35px;"><div id="stage1" style="display:block"><form id="form1" role="form" action="">'+
                     '<div class="row">'+
@@ -94,11 +93,20 @@
                      '<div id="d3"></div>'+
                      '</div>'+
                  '</div>';      
-    
-    $(document).ready(function () {
+/****************************************************************************************/
+/*                          INFOGRAPH CONSTRUCTOR                                       */
+/*  			     written by: Lorenzo                                        */
+/*  				http://www.moloco.it                                    */
+/*                         Licensed under GPL license                                   */
+/*                                                                                      */
+/*      Calculate and print a bars shaped graph in d3.js from GET params of the page    */
+/****************************************************************************************/
 
-        /* funzione d3.js per grafico distribuzione reddito famiglie */
-        var drawBars = function(level, esteem) {
+var infoGraph = function() {
+        
+        this.test = function() {console.log(this.params())}
+
+	this.draw = function(level, esteem) { // d3.js function drawing the graph
             var margin = {top: 40, right: 20, bottom: 30, left: 40},
                 width = document.documentElement.clientWidth*0.65 - margin.left - margin.right,
                 height = document.documentElement.clientHeight*0.80 - margin.top - margin.bottom;
@@ -193,34 +201,37 @@
               d.barre = +d.barre;
               return d;
             }
-        }  /* fine funzione d3 */
-    
-        /* prendere parametri da URL */
-        var params = []
-        location.search.substr(1).split("&").forEach(function(item) { if (item) { params.push([item.split("=")[0], item.split("=")[1]])} })
-        //console.log(params.length)
-        
-        /* se parametri sono settati => stage 2, se non sono settati => stage 1  */
-        if (params.length != 0)
-        {
-            /* stage 2 */
-            $("#main").html(stage2)
-            
-            
-            console.log(params[0][1], params[1][1], params[2][1])
-            $.ajax({
-                  type: "GET",
-                  url: "cutoffs.csv",
-                  dataType: "text",
-                  success: function(data) {
-                    var result = $.csv.toObjects(data);
-                    var equivalent = Math.floor(params[0][1] / (1 + Math.max(params[1][1]-1,0) * .5 + params[2][1] * .3))
-                    var percent = 99.9;
-                    var stated = parseInt(params[3][1])
-                    var position = 100-stated;
-                    var esteem = 79;
+        };
+
+	this.Equivalent = function() { // calculates equivalent income from page GET parameters
+                var params = this.params() 
+		equivalent = Math.floor(params['income'] / (1 + Math.max(params['adults']-1,0) * .5 + params['youngers'] * .3));
+		return equivalent;
+	};
+
+        this.params = function() { // string processing for GET page parameters
+		/* prendere parametri da URL */
+        	var params = []
+        	location.search.substr(1).split("&")
+			.forEach(function(item) { 
+				if (item) { 
+					params[item.split("=")[0]] = item.split("=")[1]
+	                        } 
+			});
+                return params;
+         };
+         
+
+	this.calculate = function(data) { // calculates all variables to make confrontations between expected value and real value
+		var result = $.csv.toObjects(data);
+                var equivalent = this.Equivalent()
+                var params = this.params()
+                var percent = 99.9;
+                var stated = parseInt(params['slider_value'])
+                var position = 100-stated;
+                var esteem = 79;
               
-                    //console.log(result, equivalent, Object.keys(result).length)
+                //find cutoff for equivalent
                     for (var i=0; i < Object.keys(result).length; i++){
                         //console.log(result[i])
                         if (result[i]['cutoff'] > equivalent){
@@ -230,7 +241,7 @@
                         } 
 
                     }
-                    console.log(result)
+                //find cutoff for stated
                     for (var k=0; k < Object.keys(result).length; k++){
                           //console.log(result[k])
                           if (result[k]['perc'] == position){
@@ -241,38 +252,59 @@
                     }
 
 
-                    console.log(equivalent, percent, Math.floor(equivalent/1000))
+                    //console.log(equivalent, percent, Math.floor(equivalent/1000))
                     
-                    var level = Math.floor(equivalent/1000)
+                var level = Math.floor(equivalent/1000)
+                  
+                if (level > 79) level = 79
                     
-                    if (level > 79) level = 79
+                    //console.log(equivalent, percent, Math.floor(equivalent/1000), stated, esteem)
                     
-                    console.log(equivalent, percent, Math.floor(equivalent/1000), stated, esteem)
+                this.draw(level, esteem);
                     
-                    drawBars(level, esteem);
-                    
-                    $("#stage2").append(
+                $("#stage2").append(
                               "Hai un reddito equivalente di: <strong class=\"red\">"+equivalent+" euro</strong><br/>"+
                               "Sei più ricco del "+percent+"% degli italiani<br/><br/>")
 
 
-                    $("#stage2").append("Tu credevi di essere pi&ugrave; ricco del <strong class=\"grey\">"+position+"% delle famiglie italiane</strong><br/>")
-                    $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+                $("#stage2").append("Tu credevi di essere pi&ugrave; ricco del <strong class=\"grey\">"+position+"% delle famiglie italiane</strong><br/>")
+                $("#stage2").append("<br><span><a href='/quattrogatti'>Torna al form</a></span>")
+		
+	};
 
-                    
-                   
+}
+/********* End Constructor ***************/
+/********* Page load  ********************/
+$(document).ready(function () {
+
+        var infograph = new infoGraph(); 
+        
+        //infograph.test()
+        //console.log(infograph.params())
+        
+        if (Object.keys(infograph.params()).length != 0) // if GETs are set
+        {
+            /* display stage 2 */
+            $("#main").html(stage2)
+            
+            $.ajax({ // gets invome statistical data
+                  type: "GET",
+                  url: "cutoffs.csv",
+                  dataType: "text",
+                  success: function(data) {
+                     infograph.calculate(data);
                   
                 } //end success function
 
             });
-
-            /* fine definizione stage 2 */
+           
+            /* end definition stage 2 */
         }
         
         else 
         {   
             
-            /* stage 1 */
+            /* display stage 1 */
             $("#main").html(stage1)            
             
              
@@ -313,7 +345,7 @@
                 $("#explain").mouseleave(function(){
                     $("#popout_explain").popover('hide');
                 });
-            /* fine definizione stage 1 */
+            /* end stage 1 */
          } 
         
         /* invio form */
@@ -337,16 +369,21 @@
          });     
         
         
-    }); /* fine document.ready() */
+    }); 
 
-    </script>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-
-<script>
+/* end page load */
 
 </script>
+
+      <div class="container">   
+          <footer class="row">      
+              <h6>bars&apos; and cutoffs&apos; data is property of Quattrogatti.info - all copyrights applied c 2014<br/>
+                  the rest of the code has been written or adapted by Lorenzo @ <a href="http://moloco.it" target="_blank">MOloco</a> and it is distributed by GNU GPL license</h6>
+          </footerr>
+      </div>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 
 </body>
 </html>
